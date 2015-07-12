@@ -215,4 +215,4 @@ diffFX <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   }  
 }
 
-message("\n Purpose: Functions for Visualizing the Baysian Output of Limited Dependent Variables Models \n \n  Author: Eric Dunford \n Affiliation: University of Maryland, College Park \n Date: July 2015")
+message("\n Purpose: Functions for Visualizing the Baysian Output of Limited Dependent Variable Models \n \n  Author: Eric Dunford \n Affiliation: University of Maryland, College Park \n Date Created: July 2015")
