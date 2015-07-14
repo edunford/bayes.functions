@@ -39,7 +39,12 @@ pprobs <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   run <- function(value.range){
     dd[,str_detect(colnames(dd),manipulation.var)] <- value.range
     dd.mat <- as.matrix(dd)
-    c <- as.matrix(as.mcmc(mcmc.output))
+    if(class(mcmc.output)=="rjags"){
+      c <- as.matrix(as.mcmc(mcmc.output))
+    }
+    if(class(mcmc.output)=="bugs"){
+      c <- mcmc.output$sims.matrix
+    }
     params <- c("alpha","b")
     coefs = NULL
     for(i in 1:length(params)){
@@ -98,7 +103,12 @@ marginFX <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   #Creating a baseline
   dd[,str_detect(colnames(dd),manipulation.var)] <- min(value.range)
   dd.mat <- as.matrix(dd)
-  c <- as.matrix(as.mcmc(mcmc.output))
+  if(class(mcmc.output)=="rjags"){
+    c <- as.matrix(as.mcmc(mcmc.output))
+  }
+  if(class(mcmc.output)=="bugs"){
+    c <- mcmc.output$sims.matrix
+  }
   params <- c("alpha","b")
   coefs = NULL
   for(i in 1:length(params)){
@@ -119,7 +129,12 @@ marginFX <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   run <- function(value.range){
     dd[,str_detect(colnames(dd),manipulation.var)] <- value.range
     dd.mat <- as.matrix(dd)
-    c <- as.matrix(as.mcmc(mcmc.output))
+    if(class(mcmc.output)=="rjags"){
+      c <- as.matrix(as.mcmc(mcmc.output))
+    }
+    if(class(mcmc.output)=="bugs"){
+      c <- mcmc.output$sims.matrix
+    }
     params <- c("alpha","b")
     coefs = NULL
     for(i in 1:length(params)){
@@ -180,7 +195,12 @@ diffFX <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   run <- function(value.range){
     dd[,str_detect(colnames(dd),manipulation.var)] <- value.range
     dd.mat <- as.matrix(dd)
-    c <- as.matrix(as.mcmc(mcmc.output))
+    if(class(mcmc.output)=="rjags"){
+      c <- as.matrix(as.mcmc(mcmc.output))
+    }
+    if(class(mcmc.output)=="bugs"){
+      c <- mcmc.output$sims.matrix
+    }
     params <- c("alpha","b")
     coefs = NULL
     for(i in 1:length(params)){

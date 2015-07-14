@@ -1,0 +1,7 @@
+---
+output: html_document
+---
+
+# Dealing with Limited Dependent Variable Output
+
+The following functions offer a quick way to cleanly visualize the predicted probabilities, marginal effects, and discrete differences from binary dependent variable models calculated using either `rjags` 
