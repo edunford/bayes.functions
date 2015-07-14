@@ -4,4 +4,81 @@ output: html_document
 
 # Dealing with Limited Dependent Variable Output
 
-The following functions offer a quick way to cleanly visualize the predicted probabilities, marginal effects, and discrete differences from binary dependent variable models calculated using either `rjags` 
+The following functions offer a quick way to cleanly visualize the predicted probabilities, marginal effects, and discrete differences from binary dependent variable models calculated using either `R2jags` or `R2WinBUGS` or `R2OpenBUGS`.^[Note there should be no issues when using rjags.]
+
+It should be noted upfront that this process doesn't simulate the data to produce the confidence intervals, but rather utilizes the observed value approach (see Hanmer & Kalkan 2013). In short, the functions use the *actual* data to calculate the standard errors rather than some generalized observation (composed solely of means, medians, and modes) to generate the simulated data. 
+
+Here I will outline what each function can do by offering a quick example using `R2jags` output compiled from observed data.
+
+# Functions 
+
+- `pprobs()`
+- `marginFX()`
+- `diffFX()`
+
+```{r,echo=FALSE,message=F,comment=F,error=F}
+load("/Users/Ericdunford/Dropbox/Coursework/ICPSR/Applied Bayes/applied.bayes.2015/Homeworks/HW 5/model.obj.Rdata")
+load("/Users/Ericdunford/Dropbox/Coursework/ICPSR/Applied Bayes/applied.bayes.2015/Homeworks/HW 5/data.Rdata")
+source("/Users/Ericdunford/Dropbox/Coursework/ICPSR/Applied Bayes/applied.bayes.2015/GitHub/bayes.functions/limited.dep.vars.funcs.R")
+source("/Users/Ericdunford/Dropbox/Coursework/ICPSR/Applied Bayes/applied.bayes.2015/Bayes_Notes/packages.source.R")
+```
+
+## Predicted Probabilities
+
+Here there are two options of graphical representation: 
+
+The **smoother** 
+
+```{r,message=F,comment=F,error=F}
+pprobs(mcmc.output = fit, model.data = jags.data,params = c("alpha","b"),
+       manipulation.var = "schooling",dv="protectionist",type = "smoother",points = T)
+```
+
+And the **discrete** options.
+
+```{r,message=F,comment=F,error=F}
+pprobs(mcmc.output = fit, model.data = jags.data,params = c("alpha","b"),
+       manipulation.var = "schooling",dv="protectionist",type = "discrete",points = T)
+```
+
+> Note: It is essential that the parameters are ordered as they appear in the model (i.e. alpha + b[1] + b[2] ... etc.). Failure to do so will lead to some "really messed up" output. In addition, be sure to feed in the data that used to run the rjags/winBugs model. 
+
+## Marginal Effects
+
+Calculate the marginal effects given the base probability of the IV of interests on the DV. 
+
+```{r,message=F,comment=F,error=F}
+marginFX(mcmc.output = fit,model.data = jags.data,params = c("alpha","b"),
+         manipulation.var = "schooling",dv="protectionist",type = "discrete",points = T)
+```
+
+Again there is a "discrete" and "smoother" option here. Also, the points can be turned on or off on the "smoother" plot. 
+
+```{r,message=F,comment=F,error=F}
+marginFX(mcmc.output = fit,model.data = jags.data,params = c("alpha","b"),
+         manipulation.var = "schooling",dv="protectionist",type = "smoother",points = F)
+```
+
+## Discrete Effects
+
+Calculates the distribution of the discrete difference in the probability along a specified range. The output returns a distribution since it calculates the difference using the posterior distribution provided by the model.
+
+The following will look at the discrete difference in the effect on the predicted probability when switching from male to female.
+
+There are two settings to this function -- **ci.distribution** which utilizes the vizualization features of the `hdrcde` package.
+
+```{r,message=F,comment=F,error=F}
+diffFX(mcmc.output = fit,model.data = jags.data,params = c("alpha","b"),
+       from = 0,to=1,manipulation.var ="female",dv="protectionist",type="ci.distribution")
+```
+
+and **distribution**, which offers a more simplified plot. 
+
+```{r,message=F,comment=F,error=F}
+diffFX(mcmc.output = fit,model.data = jags.data,params = c("alpha","b"),
+       from = 0,to=1,manipulation.var ="female",dv="protectionist",type="distribution")
+```
+
+There are a lot of inputs to stay mindful of and many ways in which these functions can break...but for now, these offer a nice shortcut to visualizing the output of a binary dependent variable bayesian model. 
+
+Please feel free to email edunford@umd.edu if there are any issues/suggestions/comments. Also, I should note that these functions were constructed using output from `R2jags` so there may be some compatibility issues for the winBug users out there. Please let me know if there are, and I'll fix them!
