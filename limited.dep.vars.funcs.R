@@ -28,6 +28,8 @@ pprobs <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   require(stringr)
   require(ggplot2)
   require(coda)
+  require(reshape2)
+  require(dplyr)
   dd <- data.frame(model.data)
   dd[,dv] <- NULL #remove DV
   dd$N <- NULL
@@ -92,6 +94,8 @@ marginFX <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   require(stringr)
   require(ggplot2)
   require(coda)
+  require(reshape2)
+  require(dplyr)
   dd <- data.frame(model.data)
   dd[,dv] <- NULL #remove DV
   dd$N <- NULL
@@ -184,6 +188,8 @@ diffFX <- function(mcmc.output=NULL,model.data=NULL,params=NULL,
   require(stringr)
   require(ggplot2)
   require(coda)
+  require(reshape2)
+  require(dplyr)
   dd <- data.frame(model.data)
   dd[,dv] <- NULL #remove DV
   dd$N <- NULL
